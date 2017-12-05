@@ -19,7 +19,7 @@ public class Main {
                 for (char c: currentLine.toCharArray()) {
                     String s = "" + c;
                     State<String> currentState = new State(s);
-                    currentState.SetCost(calculateCost(c));
+                    currentState.setCost(calculateCost(c));
                     row.add(currentState);
                 }
                 map.add(row);
@@ -51,7 +51,7 @@ public class Main {
     private static void printMap(Vector<Vector<State<String>>> map){
         for(int i = 0; i < map.size(); i++){
             for(int j = 0; j < map.size(); j++){
-                System.out.print(map.elementAt(i).elementAt(j).GetState() + " ");
+                System.out.print(map.elementAt(i).elementAt(j).getState() + " ");
             }
             System.out.println("\n");
         }

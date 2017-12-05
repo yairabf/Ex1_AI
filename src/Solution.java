@@ -1,4 +1,3 @@
-public class Solution<T> {
-
+public class Solution<T> implements ISolution{
 
 }

@@ -2,14 +2,14 @@ import java.util.List;
 
 public interface ISearchable<T> {
 
-    State<T> GetInitialState();
+    State<T> getInitialState();
 
 
-    State<T> GetGoalState();
+    State<T> getGoalState();
 
 
-    List<State<T>> GetAllPossibleStates(State<T> s);
+    List<State<T>> getAllPossibleStates(State<T> s);
 
 
-    Solution<T> GetSolution();
+    Solution<T> getSolution();
 }
