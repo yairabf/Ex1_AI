@@ -16,16 +16,9 @@ public class State<T> {
 
     private int priority;
 
-
-    public State(T state)
-    {
-        this.state = state;
-    }
-
     public State(T state, int cost, int creation_time, Point point, int priority) {
         this.state = state;
         this.cost = cost;
-        this.heuristics = heuristics;
         this.creation_time = creation_time;
         this.point = point;
         this.priority = priority;
@@ -43,11 +36,6 @@ public class State<T> {
         this.creation_time = creation_time;
     }
 
-
-    public void setPoint(Point point) {
-        this.point = point;
-    }
-
     public void setCameFrom(State<T> s)
     {
         this._cameFrom = s;
@@ -58,13 +46,8 @@ public class State<T> {
     }
 
 
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-
     public double getHeuristics() {
-        return heuristics;
+        return this.heuristics;
     }
 
     public int getCreation_time() {

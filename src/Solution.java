@@ -26,7 +26,7 @@ public class Solution<T> implements ISolution{
                 } else if (current.getPoint().y > j){
                     route = "-RD" + route;
                 } else {
-                    route = "D" + route;
+                    route = "-D" + route;
                 }
             } else {
                 if(current.getPoint().y < j){
@@ -38,6 +38,8 @@ public class Solution<T> implements ISolution{
             current = current.getCameFrom();
         }
         route = route.substring(1);
+        String str_cost = Integer.toString(cost);
+        route = str_cost + " " + route;
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME))) {
 
             bw.write(route);

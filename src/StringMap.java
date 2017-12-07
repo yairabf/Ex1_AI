@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class StringMap implements ISearchable{
 
@@ -8,18 +11,57 @@ public class StringMap implements ISearchable{
     private State<String> initial_state;
     private State<String> goal_state;
     private int size;
+    private int algorithm;
 
     public void setInitial_state(State<String> initial_state) {
         this.initial_state = initial_state;
     }
 
-    public void setGoal_state(State<String> goal_state) {
+    public void setGoalState(State goal_state) {
         this.goal_state = goal_state;
     }
 
-    public StringMap(int size, char[][] m) {
-        this.size = size;
-        this.map = m;
+    public StringMap(String file_path) {
+        this.buildMap(file_path);
+
+    }
+
+    private void buildMap(String file_path) {
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file_path))) {
+            this.algorithm = typeOfAlg(bufferedReader.readLine());
+            this.size = Integer.parseInt(bufferedReader.readLine());
+            this.map = new char[this.size][this.size];
+            String currentLine;
+            int line = 0;
+            while ((currentLine = bufferedReader.readLine())!=null){
+                for (int i = 0; i < currentLine.length(); i ++){
+                    map[line][i] = currentLine.charAt(i);
+                    if(currentLine.charAt(i) == 'S'){
+                        String val = "" + 'S';
+                        this.setInitial_state(new State(val,0,0,new Point(line,i),10));
+                    }
+                    if(currentLine.charAt(i) == 'G'){
+                        String val = "" + 'G';
+                        this.setGoalState(new State(val,0,0,new Point(line,i),10));
+                    }
+                }
+                line++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getAlgorithm() {
+        return algorithm;
+    }
+
+    private int typeOfAlg(String s) {
+        if(s.equals("IDS"))
+            return 1;
+        else
+
+            return 2;
     }
 
 
@@ -48,6 +90,11 @@ public class StringMap implements ISearchable{
         return neighbors;
     }
 
+    @Override
+    public int getSize() {
+        return this.size;
+    }
+
     private State<String> createChild(int i, int j, State s, int time) {
 
         // checks if the next step is in the limit of the map and it is not water.
@@ -60,13 +107,13 @@ public class StringMap implements ISearchable{
                 //left diagonal
                 if(j < s.getPoint().y){
                     if(i < s.getPoint().x) {
-                        if ((map[i][j - 1] != 'W') && (map[i - 1][j] != 'W')){
+                        if ((map[i][j + 1] != 'W') && (map[i + 1][j] != 'W')){
                             String value= "" + map[i][j];
                             return new State<>(value, evaluateCost(map[i][j]), time,
                                     new Point(i,j), evaluatePriority(i,j,s));
                         }
                     } else {
-                        if ((map[i][j - 1] != 'W') && (map[i + 1][j] != 'W')){
+                        if ((map[i - 1][j] != 'W') && (map[i][j + 1] != 'W')){
                             String value= "" + map[i][j];
                             return new State<>(value, evaluateCost(map[i][j]), time,
                                     new Point(i,j),evaluatePriority(i,j,s));
@@ -76,13 +123,13 @@ public class StringMap implements ISearchable{
                     //right diagonal
                 } else {
                     if(i < s.getPoint().x) {
-                        if ((map[i][j + 1] != 'W') && (map[i - 1][j] != 'W')){
+                        if ((map[i + 1][j] != 'W') && (map[i][j - 1] != 'W')){
                             String value= "" + map[i][j];
                             return new State<>(value, evaluateCost(map[i][j]), time,
                                     new Point(i,j),evaluatePriority(i,j,s));
                         }
                     } else {
-                        if ((map[i][j + 1] != 'W') && (map[i + 1][j] != 'W')) {
+                        if ((map[i - 1][j] != 'W') && (map[i][j - 1] != 'W')) {
                             String value = "" + map[i][j];
                             return new State<>(value, evaluateCost(map[i][j]), time,
                                     new Point(i, j), evaluatePriority(i, j, s));
@@ -112,7 +159,7 @@ public class StringMap implements ISearchable{
             case 'H':
                 return 10;
             default:
-                return 1;
+                return 0;
         }
     }
 
