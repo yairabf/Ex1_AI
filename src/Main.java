@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,51 +12,37 @@ public class Main {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(FILENAME))) {
             String algorithm = bufferedReader.readLine();
             String size = bufferedReader.readLine();
-            Vector<Vector<State<String>>> map = new Vector<>();
             int mapSize = Integer.parseInt(size);
+            State start = new State("S"), end = new State("G");
+            char [][] map = new char[mapSize][mapSize];
             String currentLine;
+            int line = 0;
             while ((currentLine = bufferedReader.readLine())!=null){
-                Vector<State<String>> row = new Vector<>(mapSize);
-                for (char c: currentLine.toCharArray()) {
-                    String s = "" + c;
-                    State<String> currentState = new State(s);
-                    currentState.setCost(calculateCost(c));
-                    row.add(currentState);
+                for (int i = 0; i < currentLine.length(); i ++){
+                    map[line][i] = currentLine.charAt(i);
+                    if(currentLine.charAt(i) == 'S'){
+                        String val = "" + 'S';
+                        start = new State(val,0,0,new Point(line,i),10);
+                    }
+                    if(currentLine.charAt(i) == 'G'){
+                        String val = "" + 'G';
+                        end = new State(val,0,0,new Point(line,i),10);
+                    }
                 }
-                map.add(row);
+                line++;
             }
-            printMap(map);
+            StringMap stringMap = new StringMap(mapSize,map);
+            stringMap.setInitial_state(start);
+            stringMap.setGoal_state(end);
+            AStarAlgorithm aStarAlgorithm = new AStarAlgorithm();
+            ISolution s = aStarAlgorithm.Search(stringMap);
+            s.buildSolution(stringMap.getGoalState());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static int calculateCost(char c){
-        int cost = 0;
-        switch (c){
-            case 'R':
-                cost = 1;
-                break;
-            case 'D':
-                cost = 3;
-                break;
-            case 'H':
-                cost = 10;
-                break;
-            default:
-                break;
-        }
-        return cost;
-    }
 
-    private static void printMap(Vector<Vector<State<String>>> map){
-        for(int i = 0; i < map.size(); i++){
-            for(int j = 0; j < map.size(); j++){
-                System.out.print(map.elementAt(i).elementAt(j).getState() + " ");
-            }
-            System.out.println("\n");
-        }
-    }
 }
 
 

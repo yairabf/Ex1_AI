@@ -4,8 +4,5 @@ public class IdsAlgorithm implements ISearcher{
         return null;
     }
 
-    @Override
-    public int GetNumberOfNodesEvaluated() {
-        return 0;
-    }
+
 }

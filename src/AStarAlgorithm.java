@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class AStarAlgorithm implements ISearcher {
@@ -12,17 +13,21 @@ public class AStarAlgorithm implements ISearcher {
         open_list.add(searchable.getInitialState());
         while (!open_list.isEmpty()){
             State current_state = open_list.poll();
-            if(current_state.getState().equals("G")){
+            if(current_state.getState().equals(searchable.getGoalState())){
                 return new Solution<String>();
             } else {
+                List<State> neighbors = searchable.getAllPossibleStates(current_state,clock);
+                for (State s: neighbors) {
 
+                    if (!open_list.contains(s)) {
+                        s.setCost(current_state.getCost() + s.getCost());
+                        s.setCameFrom(current_state);
+                        open_list.add(s);
+                    }
+                }
             }
         }
         return null;
     }
 
-    @Override
-    public int GetNumberOfNodesEvaluated() {
-        return 0;
-    }
 }

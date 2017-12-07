@@ -8,7 +8,7 @@ public interface ISearchable<T> {
     State<T> getGoalState();
 
 
-    List<State<T>> getAllPossibleStates(State<T> s);
+    List<State<T>> getAllPossibleStates(State<T> s, int time);
 
 
     Solution<T> getSolution();
