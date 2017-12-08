@@ -8,8 +8,7 @@ public class IdsAlgorithm implements ISearcher{
             State found = dls(searchable.getInitialState(), i, searchable,clock);
             clock++;
             if (found != null) {
-                searchable.setGoalState(found);
-                return new Solution<>();
+                return new Solution(found);
             }
         }
         return null;
@@ -17,16 +16,18 @@ public class IdsAlgorithm implements ISearcher{
 
 
     private State dls(State state, int depth, ISearchable searchable, int clock) {
-        if (depth == 0 && state.equals("G")){
+        if (state.getState().equals("G") && depth == 0){
             return state;
         }
         if (depth > 0){
             List<State> neighbors = searchable.getAllPossibleStates(state,clock);
             for (State child:neighbors) {
-                child.setCameFrom(state);
-                State found = dls(child, depth - 1, searchable, clock + 1);
-                if (found != null){
-                    return found;
+                if(state.getCameFrom() == null || !state.getCameFrom().getPoint().equals(child.getPoint())) {
+                    child.setCameFrom(state);
+                    State found = dls(child, depth - 1, searchable, clock + 1);
+                    if (found != null) {
+                        return found;
+                    }
                 }
             }
         }

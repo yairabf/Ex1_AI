@@ -164,7 +164,7 @@ public class StringMap implements ISearchable{
     }
 
     private double evaluateHeuristics(Point point, Point goal_point){
-        return Math.hypot(point.x - goal_point.x, point.y - goal_point.y);
+        return Math.max(Math.abs(point.x - goal_point.x), Math.abs(point.y - goal_point.y));
 
     }
 
