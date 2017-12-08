@@ -4,11 +4,13 @@ public class IdsAlgorithm implements ISearcher{
     @Override
     public ISolution Search(ISearchable searchable) {
         int clock = 0;
-        for(int i = 0; i < searchable.getSize(); i++) {
+        for(int i = 0; i < searchable.getSize() * searchable.getSize(); i++) {
             State found = dls(searchable.getInitialState(), i, searchable,clock);
             clock++;
-            if (found != null)
-                return null;
+            if (found != null) {
+                searchable.setGoalState(found);
+                return new Solution<>();
+            }
         }
         return null;
     }

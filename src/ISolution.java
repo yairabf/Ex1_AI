@@ -1,3 +1,3 @@
 public interface ISolution {
-    public void buildSolution(State s);
+    public String buildSolution(State s);
 }

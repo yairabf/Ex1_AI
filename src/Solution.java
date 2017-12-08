@@ -1,11 +1,7 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Solution<T> implements ISolution{
-    private static final String FILENAME = "src/output.txt";
     @Override
-    public void buildSolution(State s) {
+    public String buildSolution(State s) {
         State current = s;
         String route = "";
         int cost = current.getCost();
@@ -40,19 +36,6 @@ public class Solution<T> implements ISolution{
         route = route.substring(1);
         String str_cost = Integer.toString(cost);
         route = str_cost + " " + route;
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME))) {
-
-            bw.write(route);
-
-            // no need to close it.
-            //bw.close();
-
-            System.out.println("Done");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
+        return route;
     }
 }

@@ -38,11 +38,11 @@ public class StringMap implements ISearchable{
                     map[line][i] = currentLine.charAt(i);
                     if(currentLine.charAt(i) == 'S'){
                         String val = "" + 'S';
-                        this.setInitial_state(new State(val,0,0,new Point(line,i),10));
+                        this.setInitial_state(new State(val,0,0,new Point(line,i),0));
                     }
                     if(currentLine.charAt(i) == 'G'){
                         String val = "" + 'G';
-                        this.setGoalState(new State(val,0,0,new Point(line,i),10));
+                        this.setGoalState(new State(val,0,0,new Point(line,i),0));
                     }
                 }
                 line++;
@@ -98,7 +98,7 @@ public class StringMap implements ISearchable{
     private State<String> createChild(int i, int j, State s, int time) {
 
         // checks if the next step is in the limit of the map and it is not water.
-        if((i >= 0 && j >= 0) && (i < this.size && j < this.size) &&(map[i][j] != 'W') &&
+        if((i >= 0 && j >= 0) && (i < this.size && j < this.size) && (map[i][j] != 'W') &&
                 (i != s.getPoint().x || j != s.getPoint().y)){
 
             //checks the Diagonals
