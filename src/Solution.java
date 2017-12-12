@@ -1,12 +1,19 @@
 
-public class Solution implements ISolution{
-    State goal_state;
+public class Solution {
+    private State goal_state;
 
+    /**
+     * Constructor.
+     * @param goal_state the
+     */
     public Solution(State goal_state) {
         this.goal_state = goal_state;
     }
 
-    @Override
+    /**
+     * The function gets a goal state and build the path to him.
+     * @return the path to the goal state.
+     */
     public String buildSolution() {
         State current = this.goal_state;
         String route = "";
@@ -19,25 +26,25 @@ public class Solution implements ISolution{
             int j = current.getCameFrom().getPoint().y;
             if(current.getPoint().x < i){
                 if(current.getPoint().y < j){
-                    route = "-LU" + route;
+                    route = "-LU".concat(route);
                 } else if (current.getPoint().y > j){
-                    route = "-RU" + route;
+                    route = "-RU".concat(route);
                 } else {
-                    route = "U" + route;
+                    route = "U".concat(route);
                 }
             } else if (current.getPoint().x > i) {
                 if(current.getPoint().y < j){
-                    route = "-LD" + route;
+                    route = "-LD".concat(route);
                 } else if (current.getPoint().y > j){
-                    route = "-RD" + route;
+                    route = "-RD".concat(route);
                 } else {
-                    route = "-D" + route;
+                    route = "-D".concat(route);
                 }
             } else {
                 if(current.getPoint().y < j){
-                    route = "-L" + route;
+                    route = "-L" .concat(route);
                 } else {
-                    route = "-R" + route;
+                    route = "-R" .concat(route);
                 }
             }
             current = current.getCameFrom();
@@ -48,6 +55,11 @@ public class Solution implements ISolution{
         return route;
     }
 
+    /**
+     * calculate the cost of the path
+     * @param s state
+     * @return the cost
+     */
     private int calculate_cost(State s) {
         int cost = 0;
         State count = s;

@@ -1,17 +1,36 @@
 import java.util.List;
 
-public interface ISearchable<T> {
+/**
+ *  Interface for searchable graph
+ */
+public interface ISearchable {
 
-    State<T> getInitialState();
+    /**
+     * getter
+     * @return the start state of the graph
+     */
+    State getInitialState();
 
 
-    State<T> getGoalState();
+    /**
+     * setter
+     * @param s the state we want to set as the goal state
+     */
+    void setGoalState(State s);
 
-    void setGoalState(State<T> s);
+    /**
+     * this function receives all the possible neighbors of a state.
+     * @param s the state wwe wants his neighbors
+     * @param time the creation time of the neighbors
+     * @return list of neighbors
+     */
+    List<State> getAllPossibleStates(State s, int time);
 
-    List<State<T>> getAllPossibleStates(State<T> s, int time);
-
+    /**
+     * getter
+     * @return the size of the graph
+     */
     int getSize();
 
-    Solution<T> getSolution();
+
 }

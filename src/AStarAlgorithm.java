@@ -7,7 +7,7 @@ import java.util.PriorityQueue;
 public class AStarAlgorithm implements ISearcher {
     private int number_of_state_evaluated = 0;
     @Override
-    public ISolution Search(ISearchable searchable) {
+    public Solution Search(ISearchable searchable) {
         int clock = 0;
         StateComparator comparator = new StateComparator();
         //open list
